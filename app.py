@@ -108,6 +108,10 @@ def home(request: Request):
     # Render the home.html template
     return templates.TemplateResponse("details1.html", {"request": request})
 
+@app.get("/f")
+def get_image():
+    return FileResponse("data.json")
+
 @app.get("/home", response_class=HTMLResponse)
 def home(request: Request):
     # Render the home.html template
