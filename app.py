@@ -79,23 +79,23 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/image_l")
 def get_image():
-    return FileResponse("templates\OIG.jpg")
+    return FileResponse("templates/OIG.jpg")
 
 @app.get("/image_h")
 def get_image():
-    return FileResponse("templates\OIG_.jpg")
+    return FileResponse("templates/OIG_.jpg")
 
 @app.get("/logo")
 def get_image():
-    return FileResponse("templates\logo.jpg")
+    return FileResponse("templates/logo.jpg")
 
 @app.get("/det1")
 def get_image():
-    return FileResponse("templates\det_1.jpg")
+    return FileResponse("templates/det_1.jpg")
 
 @app.get("/fnl")
 def get_image():
-    return FileResponse("templates\pt.jpg")
+    return FileResponse("templates/pt.jpg")
 
 # Define a route for the home page
 @app.get("/", response_class=HTMLResponse)
