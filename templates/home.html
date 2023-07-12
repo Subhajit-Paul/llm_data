@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>চরমপন্থী ইঞ্জিনিয়ার 🔴</title>
+    <link rel="icon" type="image/jpg" href='http://192.168.1.140:8000/logo'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('http://192.168.1.140:8000/image_h');
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            background-size:cover;
+        }
+
+        
+        
+        .container {
+            max-width: 600px;
+            padding-top: 25px;
+            padding-bottom: 35px;
+            margin: 90px auto;
+            padding-left: 60px;
+            padding-right: 60px;
+            background-color: rgba(255, 255, 255, .05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 50px;
+        }
+        
+        h1 {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        form {
+            margin-top: 30px;
+        }
+        
+        label {
+            color: #fff;
+            font-weight: 700;
+            padding-left: 15px;
+            font-size: 14px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            color: #585858;
+            margin-bottom: 10px;
+        }
+        
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4c74af;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #4563a0;
+        }
+
+        .another-blah {
+            text-align: center;
+        }
+        .rounded-image {
+            border-radius: 50%;
+            padding: 5px;
+        }
+        .rainbow-slider {
+            background: linear-gradient(to right, #ff00cc, #00ffcc);
+            box-shadow: 0 0 10px #379bff;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="another-blah">
+            <img class="rounded-image" src="http://192.168.1.140:8000/logo" height="100px" width="100px" alt="Rounded Image">
+            <h1>Okay, Let's Start 😀</h1>
+        </div>
+        <form action="/submit" method="post">
+            <div class="form-group">
+                <label for="context">অনুগ্রহ করে প্রসঙ্গ ব্যাখ্যা করুন</label>
+                <input type="text" id="name" name="context" placeholder="গীতাঞ্জলি, কবি রবীন্দ্রনাথ ঠাকুরের একটি কবিতার সংকলন" data-toggle="tooltip" title="একটি বিষয়ের বিভিন্ন প্রসঙ্গ হতে পারে, সেই প্রসঙ্গের ভিত্তিতে প্রশ্ন এবং উত্তর সংকলিত করা হয়। যেমন, প্রসঙ্গ হতে পারে - ১৯৪৭ সালের ১৫ ই আগস্ট ভারত স্বাধীনতা লাভ করে।
+এই প্রসঙ্গ সম্বন্ধিত প্রশ্ন হতে পারে - ভারত কত সালে স্বাধীনতা লাভ করে?
+এই প্রশ্নের উত্তর এই প্রসঙ্গে হবে - ১৯৪৭ সালের ১৫ই আগস্ট"  required>
+            </div>
+            <div class="form-group">
+                <label for="number">প্রশ্ন সংখ্যা :</label>
+                <input type="range" id="number" class="rainbow-slider" data-toggle="tooltip" title="একটি প্রসঙ্গ সম্বন্ধিত একাধিক প্রশ্ন সংকলিত করা যেতে পারে, প্রশ্ন সংখ্যা ১ থেকে ৮ এর মধ্যে নির্বাচন করুন।" name="number" min="1" max="8" value="1" onchange="generateFields(this.value)" required>
+                <span id="numberDisplay">1</span>
+            </div>
+            <div id="fieldsContainer" class="dynamic-fields"></div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script>
+        generateFields(value)
+        function generateFields(value) {
+  var fieldsContainer = document.getElementById("fieldsContainer");
+  fieldsContainer.innerHTML = "";
+
+  for (var i = 0; i < value; i++) {
+    var questionContainer = document.createElement("div");
+    questionContainer.className = "question-container";
+
+    var questionLabel = document.createElement("label");
+    questionLabel.textContent = "প্রশ্নটি লিখুন";
+
+    var questionInput = document.createElement("input");
+    questionInput.type = "text";
+    questionInput.name = "question" + (i + 1);
+    questionInput.placeholder = "গীতাঞ্জলি কে লিখেছেন?";
+    questionInput.className = "dynamic-input";
+    questionInput.pattern = "[ঀ-৾a-zA-Z\s()،.\/?\"':;!-]*";
+    questionInput.title = "উপরে লিখিত প্রসঙ্গটি সম্বন্ধে আপনার প্রশ্নটি টাইপ করুন।";
+
+    var answerCountLabel = document.createElement("label");
+    answerCountLabel.textContent = "উত্তরের সংখ্যা:";
+
+    var answerCountInput = document.createElement("input");
+    answerCountInput.type = "range";
+    answerCountInput.name = "answerCount" + (i + 1);
+    answerCountInput.min = "1";
+    answerCountInput.max = "5";
+    answerCountInput.value = "1";
+    answerCountInput.title = "একই প্রসঙ্গে জিজ্ঞাসা করা প্রশ্নের একাধিক সঠিক উত্তর থাকতে পারে। উপরে লিখিত প্রসঙ্গের সম্বন্ধিত প্রশ্নের সম্ভাব্য জবাবের সংখ্যা নির্বাচন করুন।";
+    answerCountInput.className = "answer-count-slider";
+    answerCountInput.setAttribute("data-question-id", i + 1);
+    answerCountInput.oninput = function () {
+      var questionId = this.getAttribute("data-question-id");
+      generateAnswerFields(questionId, this.value);
+      updateAnswerCountDisplay(questionId, this.value);
+    };
+
+    var answerCountDisplay = document.createElement("span");
+    answerCountDisplay.id = "answerCountDisplay" + (i + 1);
+    answerCountDisplay.textContent = "1";
+
+    var answerContainer = document.createElement("div");
+    answerContainer.id = "answerContainer" + (i + 1);
+    answerContainer.className = "answer-container";
+
+    questionContainer.appendChild(questionLabel);
+    questionContainer.appendChild(questionInput);
+    questionContainer.appendChild(answerCountLabel);
+    questionContainer.appendChild(answerCountInput);
+    questionContainer.appendChild(answerCountDisplay);
+    questionContainer.appendChild(answerContainer);
+
+    fieldsContainer.appendChild(questionContainer);
+
+    generateAnswerFields(i + 1, 1);
+  }
+
+  document.getElementById("numberDisplay").textContent = value;
+}
+
+
+        function generateAnswerFields(questionId, answerCount) {
+            var answerContainer = document.getElementById("answerContainer" + questionId);
+            answerContainer.innerHTML = "";
+
+            for (var i = 0; i < answerCount; i++) {
+                var answerLabel = document.createElement("label");
+                answerLabel.textContent = "উত্তর " + (i + 1);
+
+                var answerInput = document.createElement("input");
+                answerInput.type = "text";
+                answerInput.name = "answer" + questionId + "_" + (i + 1);
+                answerInput.placeholder = "রবীন্দ্রনাথ ঠাকুর";
+                answerInput.className = "dynamic-input";
+                answerInput.title = "উপরে লিখিত প্রসঙ্গে আপনার প্রশ্নটির উত্তর দিন";
+                answerInput.pattern = "[ঀ-৾a-zA-Z\s()،.\/?\"':;!-]*";
+                answerContainer.appendChild(answerLabel);
+                answerContainer.appendChild(answerInput);
+            }
+        }
+
+        function updateAnswerCountDisplay(questionId, answerCount) {
+            var answerCountDisplay = document.getElementById("answerCountDisplay" + questionId);
+            answerCountDisplay.textContent = answerCount;
+        }
+        
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
