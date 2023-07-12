@@ -72,7 +72,7 @@ async def jfy(data):
 
 
 # Create an instance of the FastAPI class
-app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
+app = FastAPI()
 
 # Create an instance of the Jinja2Templates class
 templates = Jinja2Templates(directory="templates")
