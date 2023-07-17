@@ -89,6 +89,10 @@ def get_image():
 def get_image():
     return FileResponse("templates/logo.jpg")
 
+@app.get("/loaderio-5b6490044f533e41bb90e2823a9b5e3f")
+def get_image():
+    return FileResponse("templates/loaderio-5b6490044f533e41bb90e2823a9b5e3f.txt")
+
 @app.get("/det1")
 def get_image():
     return FileResponse("templates/det_1.jpg")
