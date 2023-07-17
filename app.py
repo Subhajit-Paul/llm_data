@@ -117,9 +117,9 @@ def get_image():
     return FileResponse("data.json")
 
 @app.get("/home", response_class=HTMLResponse)
-def home(request: Request):
+async def home(request: Request):
     # Render the home.html template
-    return templates.TemplateResponse("home.html", {"request": request})
+     return await templates.TemplateResponse("home.html", {"request": request})
 
 # Define a route for the form submission
 @app.post("/submit")
