@@ -78,42 +78,46 @@ app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/image_l")
-def get_image():
+async def get_image():
     return FileResponse("templates/OIG.jpg")
 
 @app.get("/image_h")
-def get_image():
+async def get_image():
     return FileResponse("templates/OIG_.jpg")
 
 @app.get("/logo")
-def get_image():
+async def get_image():
     return FileResponse("templates/logo.jpg")
 
+@app.get("/loaderio-5b6490044f533e41bb90e2823a9b5e3f")
+async def get_image():
+    return FileResponse("loaderio-5b6490044f533e41bb90e2823a9b5e3f.txt")
+
 @app.get("/det1")
-def get_image():
+async def get_image():
     return FileResponse("templates/det_1.jpg")
 
 @app.get("/fnl")
-def get_image():
+async def get_image():
     return FileResponse("templates/pt.jpg")
 
 # Define a route for the home page
 @app.get("/", response_class=HTMLResponse)
-def home(request: Request):
+async def home(request: Request):
     # Render the home.html template
     return templates.TemplateResponse("landing.html", {"request": request})
 
 @app.get("/detl1", response_class=HTMLResponse)
-def home(request: Request):
+async def home(request: Request):
     # Render the home.html template
     return templates.TemplateResponse("details1.html", {"request": request})
 
 @app.get("/f")
-def get_image():
+async def get_image():
     return FileResponse("data.json")
 
 @app.get("/home", response_class=HTMLResponse)
-def home(request: Request):
+async def home(request: Request):
     # Render the home.html template
     return templates.TemplateResponse("home.html", {"request": request})
 
