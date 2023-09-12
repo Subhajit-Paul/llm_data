@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>চরমপন্থী ইঞ্জিনিয়ার 🔴</title>
-  <link rel="icon" type="image/jpg" href='http://43.205.232.84:8000/logo'>
+    {% load static %}
+  <link rel="icon" type="image/jpg" href="{% static 'img/logo.jpg' %}">
     <style>
     body {
         display: flex;
-        background-image: url('http://43.205.232.84:8000/fnl');
+        background-image: url("{% static 'img/pt.jpg' %}");
         background-size: cover;
         flex-direction: column;
         align-items: center;
@@ -62,7 +63,13 @@
     </div>
   </div>
   <div>
-    <img src="https://cdn3.iconfinder.com/data/icons/remixicon-system/24/arrow-go-back-line-512.png" onclick="window.history.back()" height="30" width="30" class="previous-button-image" alt="Previous">
+    <img src="https://cdn3.iconfinder.com/data/icons/remixicon-system/24/arrow-go-back-line-512.png" id="navigateButton" height="30" width="30" class="previous-button-image" alt="Previous">
 </div>
+<script>
+  document.getElementById("navigateButton").addEventListener("click", function () {
+          // Redirect to the new page using JavaScript
+          window.location.href = "{% url 'landing' %}";
+      });
+</script>
 </body>
 </html>

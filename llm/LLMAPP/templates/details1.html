@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>চরমপন্থী ইঞ্জিনিয়ার 🔴</title>
-  <link rel="icon" type="image/jpg" href='http://43.205.232.84:8000/logo'>
+    {% load static %}
+    <link rel="icon" type="image/jpg" href="{% static 'img/logo.jpg' %}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
-        background-image: url('http://43.205.232.84:8000/det1');
+        background-image: url("{% static 'img/det_1.jpg' %}");
         background-size: cover;
         font-family: 'Montserrat', sans-serif;
         color: #fff;
@@ -66,13 +67,13 @@
     <div class="mt-4">
       <p class="p" >সংক্ষেপে, Machine Learning এ Dataset সংগ্রহ এবং প্রস্তুতি গুরুত্বপূর্ণ, বিশেষত NLP-তে, কারণ তারা Model Training এর ভিত্তি প্রদান করে, বাস্তব পরিস্থিতি উপস্থাপন করে, Data পরিবর্তনশীলতার জন্য পক্ষপাত ও ন্যায্যতা পরিচালনা করে, ডেটার গুণমান উন্নত করে এবং সঠিক মূল্যায়ন করতে সহায়তা করে। Dataset সংগ্রহ এবং প্রস্তুতিতে সময় এবং প্রচেষ্টা বিনিয়োগ করে, গবেষক এবং অনুশীলনকারীরা কার্যকর এবং নির্ভরযোগ্য NLP Model তৈরি করতে পারেন।</p>
     </div style="padding-top: 5px;">
-    <button type="button" class="btn btn-outline-light" onclick="redirectToNewPage()">Continue</button>
+    <button id="navigateButton" type="button" class="btn btn-outline-light">Continue</button>
   </div>
   <script>
-    function redirectToNewPage() {
-            // Function to be executed on button click
-            window.location.href = 'http://43.205.232.84:8000/home'; // Replace with your desired URL
-        }
+    document.getElementById("navigateButton").addEventListener("click", function () {
+            // Redirect to the new page using JavaScript
+            window.location.href = "{% url 'home' %}";
+        });
   </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

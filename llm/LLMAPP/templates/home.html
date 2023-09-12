@@ -2,19 +2,18 @@
 <html>
 <head>
     <title>চরমপন্থী ইঞ্জিনিয়ার 🔴</title>
-    <link rel="icon" type="image/jpg" href='http://43.205.232.84:8000/logo'>
+    {% load static %}
+    <link rel="icon" type="image/jpg" href="{% static 'img/logo.jpg' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-image: url('http://43.205.232.84:8000/image_h');
+            background-image: url("{% static 'img/OIG_.jpg' %}");
             font-family: 'Montserrat', sans-serif;
             color: #fff;
             background-size:cover;
         }
 
-        
-        
         .container {
             max-width: 600px;
             padding-top: 25px;
@@ -89,10 +88,11 @@
 <body>
     <div class="container">
         <div class="another-blah">
-            <img class="rounded-image" src="http://43.205.232.84:8000/logo" height="100px" width="100px" alt="Rounded Image">
+            <img class="rounded-image" src="{% static 'img/logo.jpg' %}" height="100px" width="100px" alt="Rounded Image">
             <h1>Okay, Let's Start 😀</h1>
         </div>
-        <form action="/submit" method="post">
+        <form action="{% url 'submit_form' %}" method="post">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="context">অনুগ্রহ করে প্রসঙ্গ ব্যাখ্যা করুন</label>
                 <input type="text" id="name" name="context" placeholder="গীতাঞ্জলি, কবি রবীন্দ্রনাথ ঠাকুরের একটি কবিতার সংকলন" data-toggle="tooltip" title="একটি বিষয়ের বিভিন্ন প্রসঙ্গ হতে পারে, সেই প্রসঙ্গের ভিত্তিতে প্রশ্ন এবং উত্তর সংকলিত করা হয়। যেমন, প্রসঙ্গ হতে পারে - ১৯৪৭ সালের ১৫ ই আগস্ট ভারত স্বাধীনতা লাভ করে।
@@ -195,8 +195,6 @@
             var answerCountDisplay = document.getElementById("answerCountDisplay" + questionId);
             answerCountDisplay.textContent = answerCount;
         }
-        
-
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
