@@ -3,7 +3,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("key.json")
+
+cred = credentials.Certificate("your_firebase_key.json")
 firebase_admin.initialize_app(cred)
 database = firestore.client()
 collection = database.collection("textDatabase")
@@ -43,7 +44,7 @@ def submit_form(request):
                 for j in range(answer_count):
                     answer = request.POST.get('answer' + str(i + 1) + '_' + str(j + 1))
                     if len(answer.split()) < 1: return error_page(request, {"error_message": f"প্রশ্ন {i+1} এ উত্তর {j+1} এর উল্লেখিত শব্দ সংখ্যা ১ অথবা ১ এর অধিক হতে হবে"})
-                    if len(answer.split()) > 32: return error_page(request, {"error_message": f"রশ্ন {i+1} এ উত্তর {j+1} এর উল্লেখিত শব্দ সংখ্যা ৩২ এর কম হতে হবে"}) 
+                    if len(answer.split()) > 32: return error_page(request, {"error_message": f"প্রশ্ন {i+1} এ উত্তর {j+1} এর উল্লেখিত শব্দ সংখ্যা ৩২ এর কম হতে হবে"}) 
                     answers_for_question.append(answer)
 
                 questions.append({'question': question, 'answers': answers_for_question})

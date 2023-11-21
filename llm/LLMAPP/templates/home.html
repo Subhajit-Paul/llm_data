@@ -14,6 +14,14 @@
             background-size:cover;
         }
 
+        .form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group button {
+    margin-left: 10px;
+}
         .container {
             max-width: 600px;
             padding-top: 25px;
@@ -83,6 +91,22 @@
             box-shadow: 0 0 10px #379bff;
             border-radius: 50%;
         }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .listening {
+            animation: pulse 1s infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -93,11 +117,12 @@
         </div>
         <form action="{% url 'submit_form' %}" method="post">
             {% csrf_token %}
+            <label for="context">অনুগ্রহ করে প্রসঙ্গ ব্যাখ্যা করুন</label>
             <div class="form-group">
-                <label for="context">অনুগ্রহ করে প্রসঙ্গ ব্যাখ্যা করুন</label>
-                <input type="text" id="name" name="context" placeholder="গীতাঞ্জলি, কবি রবীন্দ্রনাথ ঠাকুরের একটি কবিতার সংকলন" data-toggle="tooltip" title="একটি বিষয়ের বিভিন্ন প্রসঙ্গ হতে পারে, সেই প্রসঙ্গের ভিত্তিতে প্রশ্ন এবং উত্তর সংকলিত করা হয়। যেমন, প্রসঙ্গ হতে পারে - ১৯৪৭ সালের ১৫ ই আগস্ট ভারত স্বাধীনতা লাভ করে।
+                <input type="text" id="contextInp" name="context" placeholder="গীতাঞ্জলি, কবি রবীন্দ্রনাথ ঠাকুরের একটি কবিতার সংকলন" data-toggle="tooltip" title="একটি বিষয়ের বিভিন্ন প্রসঙ্গ হতে পারে, সেই প্রসঙ্গের ভিত্তিতে প্রশ্ন এবং উত্তর সংকলিত করা হয়। যেমন, প্রসঙ্গ হতে পারে - ১৯৪৭ সালের ১৫ ই আগস্ট ভারত স্বাধীনতা লাভ করে।
 এই প্রসঙ্গ সম্বন্ধিত প্রশ্ন হতে পারে - ভারত কত সালে স্বাধীনতা লাভ করে?
 এই প্রশ্নের উত্তর এই প্রসঙ্গে হবে - ১৯৪৭ সালের ১৫ই আগস্ট"  required>
+<button type="button" class="btn mb-3" id="voiceContextBtn" onclick="handleClick(event);"><img src="https://www.iconfinder.com/icons/7123011/download/png/512" height="40" width="40"></button>
             </div>
             <div class="form-group">
                 <label for="number">প্রশ্ন সংখ্যা :</label>
@@ -109,7 +134,7 @@
         </form>
     </div>
     <script>
-        generateFields(value)
+        generateFields(1);
         function generateFields(value) {
   var fieldsContainer = document.getElementById("fieldsContainer");
   fieldsContainer.innerHTML = "";
@@ -118,16 +143,38 @@
     var questionContainer = document.createElement("div");
     questionContainer.className = "question-container";
 
+    var questionRow = document.createElement("div");
+    questionRow.className = "row";
+
+    var questionInputCol = document.createElement("div");
+    questionInputCol.className = "col";
+
     var questionLabel = document.createElement("label");
     questionLabel.textContent = "প্রশ্নটি লিখুন";
 
     var questionInput = document.createElement("input");
     questionInput.type = "text";
     questionInput.name = "question" + (i + 1);
+    questionInput.id = "question" + (i + 1);
     questionInput.placeholder = "গীতাঞ্জলি কে লিখেছেন?";
-    questionInput.className = "dynamic-input";
-    questionInput.pattern = "[ঀ-৾a-zA-Z\s()،.\/?\"':;!-]*";
+    questionInput.className = "dynamic-input-question";
     questionInput.title = "উপরে লিখিত প্রসঙ্গটি সম্বন্ধে আপনার প্রশ্নটি টাইপ করুন।";
+
+    var voiceButton = document.createElement("button");
+    voiceButton.type = "button";
+    voiceButton.className = "btn mt-4";
+    voiceButton.id = "voiceBtn" + (i + 1);
+    voiceButton.innerHTML = '<img src="https://www.iconfinder.com/icons/7123011/download/png/512" height="40" width="40" class="imageB">';
+
+    voiceButton.addEventListener("click", function(event) {
+        handleClick(event);
+        });
+
+    questionInputCol.appendChild(questionLabel);
+    questionInputCol.appendChild(questionInput);
+
+    questionRow.appendChild(questionInputCol);
+    questionRow.appendChild(voiceButton);
 
     var answerCountLabel = document.createElement("label");
     answerCountLabel.textContent = "উত্তরের সংখ্যা:";
@@ -155,8 +202,7 @@
     answerContainer.id = "answerContainer" + (i + 1);
     answerContainer.className = "answer-container";
 
-    questionContainer.appendChild(questionLabel);
-    questionContainer.appendChild(questionInput);
+    questionContainer.appendChild(questionRow);
     questionContainer.appendChild(answerCountLabel);
     questionContainer.appendChild(answerCountInput);
     questionContainer.appendChild(answerCountDisplay);
@@ -170,32 +216,120 @@
   document.getElementById("numberDisplay").textContent = value;
 }
 
+function generateAnswerFields(questionId, answerCount) {
+    var answerContainer = document.getElementById("answerContainer" + questionId);
+    answerContainer.innerHTML = "";
+  for (var i = 0; i < answerCount; i++) {
+    var answerRow = document.createElement("div");
+    answerRow.className = "row";
 
-        function generateAnswerFields(questionId, answerCount) {
-            var answerContainer = document.getElementById("answerContainer" + questionId);
-            answerContainer.innerHTML = "";
+    var answerCol = document.createElement("div");
+    answerCol.className = "col";
 
-            for (var i = 0; i < answerCount; i++) {
-                var answerLabel = document.createElement("label");
-                answerLabel.textContent = "উত্তর " + (i + 1);
+    var answerLabel = document.createElement("label");
+    answerLabel.textContent = "উত্তর " + (i + 1);
 
-                var answerInput = document.createElement("input");
-                answerInput.type = "text";
-                answerInput.name = "answer" + questionId + "_" + (i + 1);
-                answerInput.placeholder = "রবীন্দ্রনাথ ঠাকুর";
-                answerInput.className = "dynamic-input";
-                answerInput.title = "উপরে লিখিত প্রসঙ্গে আপনার প্রশ্নটির উত্তর দিন";
-                answerInput.pattern = "[ঀ-৾a-zA-Z\s()،.\/?\"':;!-]*";
-                answerContainer.appendChild(answerLabel);
-                answerContainer.appendChild(answerInput);
+    var answerInput = document.createElement("input");
+    answerInput.type = "text";
+    answerInput.name = "answer" + questionId + "_" + (i + 1);
+    answerInput.id = "answer" + questionId + "_" + (i + 1);
+    answerInput.placeholder = "রবীন্দ্রনাথ ঠাকুর";
+    answerInput.className = "dynamic-input-answer";
+    answerInput.title = "উপরে লিখিত প্রসঙ্গে আপনার প্রশ্নটির উত্তর দিন";
+
+    var voiceButton = document.createElement("button");
+    voiceButton.type = "button";
+    voiceButton.className = "btn mt-4";
+    voiceButton.id = "voiceBtn" + questionId + "_" + (i + 1);
+    voiceButton.innerHTML = '<img src="https://www.iconfinder.com/icons/7123011/download/png/512" height="40" width="40" class="imageB">';
+
+    voiceButton.addEventListener("click", function(event) {
+            handleClick(event);
+        });
+
+    answerCol.appendChild(answerLabel);
+    answerCol.appendChild(answerInput);
+    answerRow.appendChild(answerCol);
+    answerRow.appendChild(voiceButton);
+    answerContainer.appendChild(answerRow);
+  }
+}
+
+function updateAnswerCountDisplay(questionId, answerCount) {
+  var answerCountDisplay = document.getElementById("answerCountDisplay" + questionId);
+  answerCountDisplay.textContent = answerCount;
+}
+    </script>
+    <script>
+        const audioContext = new window.AudioContext() || window.webkitAudioContext();
+        let mediaStreamSource = null;
+        const analyser = audioContext.createAnalyser();
+
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function (stream) {
+                mediaStreamSource = audioContext.createMediaStreamSource(stream);
+                mediaStreamSource.connect(analyser);
+            })
+            .catch(function (err) {
+                console.error('Error accessing microphone:', err);
+            });
+
+        const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'bn-IN';
+
+        let listening = false;
+        function stopMicrophone() {
+            if (listening) {
+                recognition.stop();
+                listening = false;
+                voiceBtn.classList.remove('listening');
+                voiceBtn.removeAttribute('disabled');
+                voiceBtn.title = "Click to start listening";
             }
         }
 
-        function updateAnswerCountDisplay(questionId, answerCount) {
-            var answerCountDisplay = document.getElementById("answerCountDisplay" + questionId);
-            answerCountDisplay.textContent = answerCount;
+        let output = null;
+        var voiceBtn = null;
+        function handleClick(event) {
+            voiceBtn = event.currentTarget;
+            if (voiceBtn.id.length == 11) {
+                output = document.getElementById(voiceBtn.id.replace("voiceBtn", "answer"));
+            } else if (voiceBtn.id.length == 9) {
+                output = document.getElementById(voiceBtn.id.replace("voiceBtn", "question"));
+            } else output = document.getElementById("contextInp");
+            
+            if (!listening) {
+                voiceBtn.classList.add('listening');
+                voiceBtn.setAttribute('disabled', 'disabled');
+                voiceBtn.title = "Click to stop listening";
+                recognition.start();
+                listening = true;
+            } else {
+                stopMicrophone();
+            }
         }
+
+        recognition.onresult = (event) => {
+            const result = event.results[0][0].transcript;
+            output.value = result;
+        };
+        recognition.onend = () => {
+            if (listening) {
+                voiceBtn.classList.remove('listening');
+                voiceBtn.removeAttribute('disabled');
+                voiceBtn.title = "Click to start listening";
+                voiceBtn.title = "Click to start listening";
+                listening = false;
+            }
+        };
     </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
